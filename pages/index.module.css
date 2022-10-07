@@ -79,6 +79,10 @@
   margin-left: 0.5rem;
 }
 
+.fadeIn{
+  transition: all 900ms ease-in-out;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
