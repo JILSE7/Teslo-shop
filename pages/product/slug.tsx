@@ -6,7 +6,8 @@ import { ShopLayout } from '@/components/layout';
 import { ProductSlideshow, SizeSelector } from '@/components/products';
 
 const product = initialData.products[0];
-
+console.log({ product });
+console.log({ product });
 const ProductPage = () => {
   return (
    <ShopLayout title='ABC' pageDescription={product.description}>
