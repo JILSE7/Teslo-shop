@@ -1,26 +1,46 @@
 import { Box, Divider, Drawer, IconButton, Input, InputAdornment, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from "@mui/material"
 import { AccountCircleOutlined, AdminPanelSettings, CategoryOutlined, ConfirmationNumberOutlined, EscalatorWarningOutlined, FemaleOutlined, LoginOutlined, MaleOutlined, SearchOutlined, VpnKeyOutlined } from "@mui/icons-material"
+import { useContext, useState } from "react"
+import { UiContext } from "context"
+import { useRouter } from "next/router"
 
 
 const SideMenu = () => {
+  const router = useRouter();
+  const {isMenuOpen, toggleSideMenu} = useContext(UiContext);
+  const [searchTerm, setsearchTerm] = useState('');
+
+  const toNavigate = (url: string) => {
+    toggleSideMenu();
+    router.replace(url);
+  }
+
+  const onSearchTerm = () => {
+    if (searchTerm.trim().length === 0) return;
+
+    toNavigate(`/search/${searchTerm}`);
+  }
   return (
     <Drawer
-        open={ false }
+        open={ isMenuOpen }
         anchor='right'
         sx={{ backdropFilter: 'blur(4px)', transition: 'all 0.5s ease-out' }}
+        onClose={toggleSideMenu}
     >
         <Box sx={{ width: 250, paddingTop: 5 }}>
-            
             <List>
-
                 <ListItem>
                     <Input
+                        autoFocus
                         type='text'
                         placeholder="Buscar..."
+                        value={searchTerm}
+                        onChange={e => setsearchTerm(e.target.value)}
+                        onKeyPress={e => e.key === 'Enter' && onSearchTerm()}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
-                                aria-label="toggle password visibility"
+                                  onClick={onSearchTerm}
                                 >
                                  <SearchOutlined />
                                 </IconButton>
@@ -44,21 +64,21 @@ const SideMenu = () => {
                 </ListItem>
 
 
-                <ListItem button sx={{ display: { xs: '', sm: 'none' } }}>
+                <ListItem button sx={{ display: { xs: '', sm: 'none' } }} onClick={() => toNavigate('/category/men')}>
                     <ListItemIcon>
                         <MaleOutlined/>
                     </ListItemIcon>
                     <ListItemText primary={'Hombres'} />
                 </ListItem>
 
-                <ListItem button sx={{ display: { xs: '', sm: 'none' } }}>
+                <ListItem button sx={{ display: { xs: '', sm: 'none' } }} onClick={() => toNavigate('/category/women')}>
                     <ListItemIcon>
                         <FemaleOutlined/>
                     </ListItemIcon>
                     <ListItemText primary={'Mujeres'} />
                 </ListItem>
 
-                <ListItem button sx={{ display: { xs: '', sm: 'none' } }}>
+                <ListItem button sx={{ display: { xs: '', sm: 'none' } }} onClick={() => toNavigate('/category/kids')}>
                     <ListItemIcon>
                         <EscalatorWarningOutlined/>
                     </ListItemIcon>

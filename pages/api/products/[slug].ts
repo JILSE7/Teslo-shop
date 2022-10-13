@@ -6,7 +6,7 @@ import { IProduct } from '../../../interfaces/Products';
 type Data = {
     message?: string;
     ok :boolean;
-    data?: IProduct;
+    data?: IProduct[];
 }
 
 export default function (req: NextApiRequest, res: NextApiResponse<Data>) {
@@ -27,5 +27,5 @@ const getProductBySlug = async(req: NextApiRequest, res: NextApiResponse<Data>) 
     const product = await Product.findOne({ slug }).lean()
     if ( !product ) return res.status(400).json({ message: 'Producto no encontrado', ok: false })
     await db.disconnect();
-    return res.status(200).json({ ok:true, data: product,})
+    return res.status(200).json({ ok:true, data: [product],})
 }
