@@ -3,7 +3,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import type { AppProps } from 'next/app'
 import { lightTheme } from 'themes'
 import { SWRConfig } from 'swr';
-import { UiProvider } from 'context';
+import { UiProvider, CartProvider } from '../context';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -12,12 +12,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         // refreshInterval: 500,
         fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
       }}
-    > <UiProvider>
-        <ThemeProvider theme={lightTheme}>
-          <CssBaseline/>
-          <Component {...pageProps} />
-        </ThemeProvider>
-    </UiProvider>
+    > 
+        <CartProvider>
+          <UiProvider>
+            <ThemeProvider theme={lightTheme}>
+              <CssBaseline/>
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </UiProvider>
+        </CartProvider>
     </SWRConfig>
   )
 }

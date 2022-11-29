@@ -5,20 +5,23 @@ import { FC } from "react"
 
 
 interface IProps {
-
+  currentValue: number;
+  updateQuantity : (action: '+'|'-') => void;
+  maxValue: number;
 }
 
 
-export const ItemCounter:FC<IProps> = () => {
+export const ItemCounter:FC<IProps> = ({ currentValue, updateQuantity, maxValue }) => {
   return (
     <Box display="flex" alignItems="center">
       <Typography variant='subtitle1' component="h2">Cantidad  </Typography>
       <Box display="flex" alignItems="center">
-        <IconButton>
+        
+        <IconButton onClick={() => updateQuantity('-')} disabled={currentValue === 1}>
           <RemoveCircleOutline/>
         </IconButton>
-        <Typography sx={{ width: 40, textAlign: 'center' }}>1</Typography>
-        <IconButton>
+        <Typography sx={{ width: 40, textAlign: 'center' }}>{currentValue}</Typography>
+        <IconButton onClick={() => updateQuantity('+')} disabled={currentValue >= maxValue}>
           <AddCircleOutline/>
         </IconButton>
       </Box>

@@ -6,9 +6,10 @@ import { ISize } from '../../interfaces/Products';
 interface IProps {
     selectedSize?: ISize;
     sizes: ISize[];
+    onSelectedSize: (size:ISize) => void;
 }
 
-export const SizeSelector:FC<IProps> = ({ selectedSize, sizes }) => {
+export const SizeSelector:FC<IProps> = ({ selectedSize, sizes, onSelectedSize }) => {
   const reactId = useId();
   return (
     <Box sx={{ my: 2, width: '100%' }} display="flex" alignItems="flex-start">
@@ -20,6 +21,7 @@ export const SizeSelector:FC<IProps> = ({ selectedSize, sizes }) => {
                     key={reactId + size}
                     size="small"
                     color={selectedSize === size ? 'primary' : 'info'}
+                    onClick={() => onSelectedSize(size)}
                     >
                         { size }
                     </Button>
